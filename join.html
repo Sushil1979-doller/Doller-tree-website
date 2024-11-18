@@ -26,7 +26,7 @@
             display: block;
             margin-bottom: 8px;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 8px;
             margin-bottom: 16px;
@@ -45,6 +45,14 @@
         }
         button:hover {
             background: #218838;
+        }
+        .mobile-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .mobile-container input {
+            flex-grow: 1;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -65,10 +73,19 @@
             <input type="text" id="walletAddress" name="walletAddress" required>
 
             <label for="mobileNumber">Mobile Number (with Country Code):</label>
-            <input type="text" id="mobileNumber" name="mobileNumber" required>
+            <div class="mobile-container">
+                <select id="countryCode" name="countryCode" required>
+                    <option value="+1">+1 (USA)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+91">+91 (India)</option>
+                    <option value="+61">+61 (Australia)</option>
+                    <!-- Add more country codes as needed -->
+                </select>
+                <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile number" required>
+            </div>
 
-            <label for="referralCode">Referral Code (Optional):</label>
-            <input type="text" id="referralCode" name="referralCode">
+            <label for="referralCode">Referral Code (Required):</label>
+            <input type="text" id="referralCode" name="referralCode" required>
 
             <button type="submit">Join</button>
         </form>
@@ -83,7 +100,7 @@
             projectId: "doller-tree-4434d",
             storageBucket: "doller-tree-4434d.appspot.com",
             messagingSenderId: "308263906273",
-            appId: "1:308263906273:web:060be293712c9a1fcf00a0"  // सही appId यहाँ डाला गया है
+            appId: "1:308263906273:web:060be293712c9a1fcf00a0"  // Correct appId
         };
 
         // Initialize Firebase
@@ -102,6 +119,7 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             const walletAddress = document.getElementById('walletAddress').value;
             const mobileNumber = document.getElementById('mobileNumber').value;
+            const countryCode = document.getElementById('countryCode').value;
             const referralCode = document.getElementById('referralCode').value;
 
             // Check if password and confirm password match
@@ -121,8 +139,8 @@
                     userRef.set({
                         email: email,
                         walletAddress: walletAddress,
-                        mobileNumber: mobileNumber,
-                        referralCode: referralCode || null
+                        mobileNumber: countryCode + mobileNumber,
+                        referralCode: referralCode
                     })
                     .then(() => {
                         alert('User registered successfully!');
