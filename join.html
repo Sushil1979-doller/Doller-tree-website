@@ -3,124 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Doller Tree</title>
+    <title>Dollar Tree - Join</title>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
         }
         .container {
-            width: 50%;
-            margin: 20px auto;
-            background: #ffffff;
+            max-width: 400px;
+            margin: 50px auto;
             padding: 20px;
+            background: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #4CAF50;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
         }
-        .form-group input {
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .form-group input:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-        .btn-submit {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
+            background: #28a745;
+            color: #fff;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
         }
-        .btn-submit:hover {
-            background-color: #45a049;
+        button:hover {
+            background: #218838;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h2>Join Doller Tree</h2>
-    <form id="joinForm">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-            <label for="country">Country:</label>
-            <input type="text" id="country" name="country" required>
-        </div>
-        <div class="form-group">
-            <label for="state">State:</label>
-            <input type="text" id="state" name="state" required>
-        </div>
-        <div class="form-group">
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required>
-        </div>
-        <div class="form-group">
-            <label for="pin">Pin:</label>
-            <input type="text" id="pin" name="pin" required>
-        </div>
-        <div class="form-group">
-            <label for="mobile">Mobile Number:</label>
-            <input type="tel" id="mobile" name="mobile" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="sponsor">Sponsor:</label>
-            <input type="text" id="sponsor" name="sponsor" required>
-        </div>
-        <div class="form-group">
+    <div class="container">
+        <h2>Join Dollar Tree</h2>
+        <form id="joinForm">
             <label for="userId">User ID:</label>
             <input type="text" id="userId" name="userId" required>
-        </div>
-        <div class="form-group">
+
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
-        </div>
-        <div class="form-group">
+
             <label for="walletAddress">Wallet Address:</label>
             <input type="text" id="walletAddress" name="walletAddress" required>
-        </div>
-        <button type="submit" class="btn-submit">Submit</button>
-    </form>
-</div>
 
-<script>
-    document.getElementById("joinForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        alert("Form Submitted! Verification and Payment System Coming Soon.");
-    });
-</script>
+            <button type="submit">Join</button>
+        </form>
+    </div>
 
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCEBA8Dnd7pBs2rNKwxLETwObxBm9TYS4",
+            authDomain: "doller-tree-4434d.firebaseapp.com",
+            databaseURL: "https://doller-tree-4434d-default-rtdb.firebaseio.com",
+            projectId: "doller-tree-4434d",
+            storageBucket: "doller-tree-4434d.appspot.com",
+            messagingSenderId: "308263906273",
+            appId: "1:308263906273:web:your-app-id"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Form submission handler
+        const joinForm = document.getElementById('joinForm');
+        joinForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Get form values
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            const walletAddress = document.getElementById('walletAddress').value;
+
+            // Save to Firebase Realtime Database
+            const userRef = database.ref('users/' + userId);
+            userRef.set({
+                password: password,
+                walletAddress: walletAddress
+            })
+            .then(() => {
+                alert('User data saved successfully!');
+                joinForm.reset();
+            })
+            .catch((error) => {
+                alert('Error saving data: ' + error.message);
+            });
+        });
+    </script>
 </body>
-  </html>
+</html>
