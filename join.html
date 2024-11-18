@@ -58,8 +58,17 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
             <label for="walletAddress">Wallet Address:</label>
             <input type="text" id="walletAddress" name="walletAddress" required>
+
+            <label for="mobileNumber">Mobile Number (with Country Code):</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" required>
+
+            <label for="referralCode">Referral Code (Optional):</label>
+            <input type="text" id="referralCode" name="referralCode">
 
             <button type="submit">Join</button>
         </form>
@@ -90,7 +99,16 @@
             // Get form values
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             const walletAddress = document.getElementById('walletAddress').value;
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const referralCode = document.getElementById('referralCode').value;
+
+            // Check if password and confirm password match
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
 
             // Firebase Authentication to create a new user
             auth.createUserWithEmailAndPassword(email, password)
@@ -102,7 +120,9 @@
                     const userRef = database.ref('users/' + userIdToken);
                     userRef.set({
                         email: email,
-                        walletAddress: walletAddress
+                        walletAddress: walletAddress,
+                        mobileNumber: mobileNumber,
+                        referralCode: referralCode || null
                     })
                     .then(() => {
                         alert('User registered successfully!');
