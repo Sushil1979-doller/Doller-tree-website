@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dollar Tree - Join</title>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
     <style>
         body {
@@ -51,8 +52,8 @@
     <div class="container">
         <h2>Join Dollar Tree</h2>
         <form id="joinForm">
-            <label for="userId">User ID:</label>
-            <input type="text" id="userId" name="userId" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
@@ -78,6 +79,7 @@
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const database = firebase.database();
 
         // Form submission handler
@@ -86,23 +88,33 @@
             e.preventDefault();
 
             // Get form values
-            const userId = document.getElementById('userId').value;
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const walletAddress = document.getElementById('walletAddress').value;
 
-            // Save to Firebase Realtime Database
-            const userRef = database.ref('users/' + userId);
-            userRef.set({
-                password: password,
-                walletAddress: walletAddress
-            })
-            .then(() => {
-                alert('User data saved successfully!');
-                joinForm.reset();
-            })
-            .catch((error) => {
-                alert('Error saving data: ' + error.message);
-            });
+            // Firebase Authentication to create a new user
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    const userIdToken = user.uid;
+
+                    // Save data to Firebase Realtime Database
+                    const userRef = database.ref('users/' + userIdToken);
+                    userRef.set({
+                        email: email,
+                        walletAddress: walletAddress
+                    })
+                    .then(() => {
+                        alert('User registered successfully!');
+                        joinForm.reset();
+                    })
+                    .catch((error) => {
+                        alert('Error saving data: ' + error.message);
+                    });
+                })
+                .catch((error) => {
+                    alert('Error creating account: ' + error.message);
+                });
         });
     </script>
 </body>
