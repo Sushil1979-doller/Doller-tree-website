@@ -46,14 +46,6 @@
         button:hover {
             background: #218838;
         }
-        .mobile-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .mobile-container input {
-            flex-grow: 1;
-            margin-left: 10px;
-        }
     </style>
 </head>
 <body>
@@ -72,20 +64,25 @@
             <label for="walletAddress">Wallet Address:</label>
             <input type="text" id="walletAddress" name="walletAddress" required>
 
-            <label for="mobileNumber">Mobile Number (with Country Code):</label>
-            <div class="mobile-container">
+            <label for="mobileNumber">Mobile Number:</label>
+            <div style="display: flex;">
                 <select id="countryCode" name="countryCode" required>
-                    <option value="+1">+1 (USA)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+91">+91 (India)</option>
-                    <option value="+61">+61 (Australia)</option>
-                    <!-- Add more country codes as needed -->
+                    <!-- Country Codes Dropdown -->
+                    <option value="+1">+1 USA</option>
+                    <option value="+91">+91 India</option>
+                    <option value="+44">+44 UK</option>
+                    <option value="+61">+61 Australia</option>
+                    <option value="+81">+81 Japan</option>
+                    <option value="+49">+49 Germany</option>
+                    <option value="+33">+33 France</option>
+                    <option value="+55">+55 Brazil</option>
+                    <!-- Add more countries as needed -->
                 </select>
-                <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Enter mobile number" required>
+                <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter your mobile number">
             </div>
 
-            <label for="referralCode">Referral Code (Required):</label>
-            <input type="text" id="referralCode" name="referralCode" required>
+            <label for="referralCode">Referral Code (Optional):</label>
+            <input type="text" id="referralCode" name="referralCode">
 
             <button type="submit">Join</button>
         </form>
@@ -100,7 +97,7 @@
             projectId: "doller-tree-4434d",
             storageBucket: "doller-tree-4434d.appspot.com",
             messagingSenderId: "308263906273",
-            appId: "1:308263906273:web:060be293712c9a1fcf00a0"  // Correct appId
+            appId: "1:308263906273:web:060be293712c9a1fcf00a0"
         };
 
         // Initialize Firebase
@@ -139,8 +136,8 @@
                     userRef.set({
                         email: email,
                         walletAddress: walletAddress,
-                        mobileNumber: countryCode + mobileNumber,
-                        referralCode: referralCode
+                        mobileNumber: countryCode + mobileNumber, // Store mobile number with country code
+                        referralCode: referralCode || null
                     })
                     .then(() => {
                         alert('User registered successfully!');
