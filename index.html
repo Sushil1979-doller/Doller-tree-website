@@ -3,137 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doller Tree</title>
+    <title>Dollar Tree</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f8ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            position: relative;
+            background-color: #f4f4f4;
+            color: #333;
         }
-
-        /* Header Section (Welcome Note) */
         header {
-            background-color: #4CAF50;
-            padding: 20px;
-            color: white;
             text-align: center;
-            position: absolute;
-            top: 20px;
-            width: 100%;
+            padding: 20px;
+            background-color: #4caf50;
+            color: white;
         }
-
-        h1 {
-            font-size: 36px;
+        header h1 {
             margin: 0;
+            font-size: 2.5em;
         }
-
-        p {
-            font-size: 20px;
-            margin: 10px 0;
+        .welcome-note {
+            text-align: center;
+            padding: 20px;
         }
-
-        /* Logo Section */
-        .logo-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            margin-top: 80px; /* Increased space to move the logo lower */
+        .welcome-note p {
+            font-size: 1.2em;
+            color: #555;
         }
-
-        .logo-container img {
-            width: 100%;
-            height: auto;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        .tree-logo {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: auto;
+        .buttons {
+            text-align: center;
+            margin: 20px 0;
         }
-
-        .watering-man {
-            position: absolute;
-            top: 120px;
-            left: 100px;
-            width: 50px;
-            height: auto;
-        }
-
-        /* Navigation Buttons */
-        .nav-buttons {
-            position: absolute;
-            top: 500px; /* Adjusted position of buttons to be lower */
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .nav-buttons button {
-            font-size: 18px;
-            padding: 15px 30px;
-            margin: 10px 0;
-            background-color: #4CAF50;
+        .buttons button {
+            font-size: 1em;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4caf50;
             color: white;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
-            transition: background-color 0.3s;
-            width: 200px;
+            cursor: pointer;
         }
-
-        .nav-buttons button:hover {
+        .buttons button:hover {
             background-color: #45a049;
         }
-
-        /* Footer Section */
-        footer {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+        h2 {
+            color: #4caf50;
+            text-align: left;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+        .disclaimer {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 5px solid #ff9800;
+        }
+        .translate-btn {
             text-align: center;
+            margin: 20px 0;
+        }
+        .translate-btn button {
+            font-size: 1em;
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .translate-btn button:hover {
+            background-color: #1976d2;
+        }
+        .resources {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+        }
+        .resources h3 {
+            color: #2e7d32;
+        }
+        .resources ul {
+            padding: 0;
+            list-style-type: none;
+        }
+        .resources ul li {
+            margin: 10px 0;
+        }
+        .resources ul li a {
+            text-decoration: none;
+            color: #388e3c;
+        }
+        .resources ul li a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-
-    <!-- Header Section (Welcome Note) -->
     <header>
-        <h1>Welcome to Doller Tree</h1>
-        <p>This is your own doller tree, fulfill your dreams now.</p>
+        <h1>Welcome to Dollar Tree</h1>
     </header>
 
-    <!-- Logo Section -->
-    <div class="logo-container">
-        <img class="tree-logo" src="tree_logo.jpg" alt="Doller Tree Logo"> <!-- Replace with your JPG logo image -->
-        <img class="watering-man" src="watering_man.png" alt="Man watering tree with coins"> <!-- Replace with your watering man image -->
+    <div class="welcome-note">
+        <p>This is your own Dollar Tree, fulfill your dreams now.</p>
     </div>
 
-    <!-- Navigation Buttons -->
-    <div class="nav-buttons">
-        <button>Join</button>
-        <button>Member</button>
-        <button>Plan</button>
-        <button>Support</button>
-        <button>Setting</button>
+    <div class="container">
+        <div class="buttons">
+            <button>Join</button>
+            <button>Member</button>
+        </div>
+
+        <h2>Plan Overview</h2>
+        <ul>
+            <li>1. Become a member by contributing 100 USDT.</li>
+            <li>2. Your 100 USDT will be distributed to 10 uplines (10 USDT each to 9 and 5 USDT to 1 most senior upline).</li>
+            <li>3. 5 USDT to admin for maintaining this system.</li>
+            <li>4. In the same way, you will also get 10 USDT from your team members till the 9th level and 5 USDT from the 10th level.</li>
+            <li>5. You can join unlimited members in your direct.</li>
+            <li>6. You will profit till the 10th level in every line.</li>
+            <li>7. This is your own system; you are your own boss. From where you join, your system is endless. Grow your Dollar Tree and be fruitful.</li>
+        </ul>
+
+        <h2>Disclaimer</h2>
+        <div class="disclaimer">
+            <p>This system is made for only interested members, those who have confidence and courage of fulfilling their dreams. This is fully decentralized and an endless system. But if you think you can't bring some people into your system, then please do not join this system. Dollar Tree can't give you the fruits; you can lose your hard-earned money. This system is only for the big and brave dreamers across the world.</p>
+        </div>
+
+        <div class="translate-btn">
+            <button>Translate</button>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="resources">
+            <h3>Resources</h3>
+            <ul>
+                <li><a href="#" target="_blank">Video 1: Introduction to Dollar Tree</a></li>
+                <li><a href="#" target="_blank">Video 2: How it Works</a></li>
+                <li><a href="#" target="_blank">Plan PDF</a></li>
+                <li><a href="#" target="_blank">Terms & Conditions (Document)</a></li>
+                <li><a href="#" target="_blank">Useful Link 1</a></li>
+                <li><a href="#" target="_blank">Useful Link 2</a></li>
+            </ul>
+        </div>
     </div>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2024 Doller Tree. All rights reserved.</p>
-    </footer>
-
 </body>
 </html>
