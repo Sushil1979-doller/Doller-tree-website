@@ -11,16 +11,17 @@
       padding: 20px;
     }
     .welcome-note {
-      background-color: #cfe2f3;
+      background-color: #4CAF50; /* Green background */
       padding: 20px;
       border-radius: 5px;
       margin-bottom: 20px;
+      color: white;
     }
     .welcome-note h2 {
-      color: #1e6e91;
+      margin: 0;
     }
     .welcome-note p {
-      color: #555;
+      margin: 10px 0;
     }
     .info-box {
       background-color: #fff;
@@ -37,11 +38,25 @@
       display: inline-block;
       border-radius: 5px;
       margin: 5px;
+      cursor: pointer;
     }
     .copy-btn {
       background-color: #f44336;
       color: white;
       padding: 10px 20px;
+      cursor: pointer;
+    }
+    .button-blue {
+      background-color: #2196F3;
+    }
+    .button-red {
+      background-color: #f44336;
+    }
+    .button-grey {
+      background-color: #9E9E9E;
+    }
+    .button:hover {
+      opacity: 0.9;
     }
     table {
       width: 100%;
@@ -59,10 +74,10 @@
       background-color: #4CAF50;
       color: white;
     }
-    .col-2 {
+    .row-buttons {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -89,7 +104,7 @@
     <h3>Today's Income: $<span id="todayIncome">10</span></h3>
   </div>
 
-  <!-- Table for Level Stats -->
+  <!-- Level Table -->
   <table>
     <thead>
       <tr>
@@ -112,10 +127,13 @@
   </table>
 
   <!-- Buttons Section -->
-  <div class="button" onclick="location.href='profile.html'">Profile</div>
-  <div class="button" onclick="location.href='your_tree.html'">Your Tree</div>
-  <div class="button" onclick="location.href='statement.html'">Income Statement</div>
-  <div class="button" onclick="location.href='change_password.html'">Change Password</div>
+  <div class="row-buttons">
+    <div class="button" onclick="location.href='profile.html'">Profile</div>
+    <div class="button" onclick="location.href='your_tree.html'">Your Tree</div>
+    <div class="button" onclick="location.href='statement.html'">Income Statement</div>
+    <div class="button" onclick="location.href='change_password.html'">Change Password</div>
+    <div class="button button-blue" onclick="location.href='how_to_build_team.html'">How to Build Team</div>
+  </div>
 
   <script>
     // Set User Email dynamically (Example: Replace with actual user's email data)
