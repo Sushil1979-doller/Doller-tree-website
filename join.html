@@ -67,22 +67,13 @@
             <label for="mobileNumber">Mobile Number:</label>
             <div style="display: flex;">
                 <select id="countryCode" name="countryCode" required>
-                    <!-- Country Codes Dropdown -->
-                    <option value="+1">+1 USA</option>
-                    <option value="+91">+91 India</option>
-                    <option value="+44">+44 UK</option>
-                    <option value="+61">+61 Australia</option>
-                    <option value="+81">+81 Japan</option>
-                    <option value="+49">+49 Germany</option>
-                    <option value="+33">+33 France</option>
-                    <option value="+55">+55 Brazil</option>
-                    <!-- Add more countries as needed -->
+                    <!-- Dynamically populated -->
                 </select>
                 <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter your mobile number">
             </div>
 
-            <label for="referralCode">Referral Code (Optional):</label>
-            <input type="text" id="referralCode" name="referralCode">
+            <label for="referralCode">Referral Code:</label>
+            <input type="text" id="referralCode" name="referralCode" required>
 
             <button type="submit">Join</button>
         </form>
@@ -104,6 +95,35 @@
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
+
+        // Populate country codes dynamically
+        const countryCodeSelect = document.getElementById('countryCode');
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = `+${country.idd.root}${country.idd.suffixes ? country.idd.suffixes[0] : ''}`;
+                    option.text = `${option.value} ${country.name.common}`;
+                    countryCodeSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching country codes:', error));
+
+        // GeoIP to set default country code
+        fetch('https://ipinfo.io/json?token=') // Add your token if available
+            .then(response => response.json())
+            .then(data => {
+                const userCountryCode = `+${data.country}`;
+                const options = countryCodeSelect.options;
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].value === userCountryCode) {
+                        options[i].selected = true;
+                        break;
+                    }
+                }
+            })
+            .catch(error => console.error('Error with GeoIP lookup:', error));
 
         // Form submission handler
         const joinForm = document.getElementById('joinForm');
@@ -137,7 +157,7 @@
                         email: email,
                         walletAddress: walletAddress,
                         mobileNumber: countryCode + mobileNumber, // Store mobile number with country code
-                        referralCode: referralCode || null
+                        referralCode: referralCode
                     })
                     .then(() => {
                         alert('User registered successfully!');
