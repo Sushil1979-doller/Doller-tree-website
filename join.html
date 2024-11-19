@@ -26,7 +26,7 @@
             display: block;
             margin-bottom: 8px;
         }
-        input, select {
+        input {
             width: 100%;
             padding: 8px;
             margin-bottom: 16px;
@@ -64,13 +64,11 @@
             <label for="walletAddress">Wallet Address:</label>
             <input type="text" id="walletAddress" name="walletAddress" required>
 
+            <label for="countryCode">Country Code (e.g., +91):</label>
+            <input type="text" id="countryCode" name="countryCode" required placeholder="Enter country code">
+
             <label for="mobileNumber">Mobile Number:</label>
-            <div style="display: flex;">
-                <select id="countryCode" name="countryCode" required>
-                    <!-- Dynamically populated -->
-                </select>
-                <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter your mobile number">
-            </div>
+            <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter mobile number">
 
             <label for="referralCode">Referral Code:</label>
             <input type="text" id="referralCode" name="referralCode" required>
@@ -96,35 +94,6 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // Populate country codes dynamically
-        const countryCodeSelect = document.getElementById('countryCode');
-        fetch('https://restcountries.com/v3.1/all')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(country => {
-                    const option = document.createElement('option');
-                    option.value = `+${country.idd.root}${country.idd.suffixes ? country.idd.suffixes[0] : ''}`;
-                    option.text = `${option.value} ${country.name.common}`;
-                    countryCodeSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching country codes:', error));
-
-        // GeoIP to set default country code
-        fetch('https://ipinfo.io/json?token=') // Add your token if available
-            .then(response => response.json())
-            .then(data => {
-                const userCountryCode = `+${data.country}`;
-                const options = countryCodeSelect.options;
-                for (let i = 0; i < options.length; i++) {
-                    if (options[i].value === userCountryCode) {
-                        options[i].selected = true;
-                        break;
-                    }
-                }
-            })
-            .catch(error => console.error('Error with GeoIP lookup:', error));
-
         // Form submission handler
         const joinForm = document.getElementById('joinForm');
         joinForm.addEventListener('submit', (e) => {
@@ -135,8 +104,8 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const walletAddress = document.getElementById('walletAddress').value;
-            const mobileNumber = document.getElementById('mobileNumber').value;
             const countryCode = document.getElementById('countryCode').value;
+            const mobileNumber = document.getElementById('mobileNumber').value;
             const referralCode = document.getElementById('referralCode').value;
 
             // Check if password and confirm password match
