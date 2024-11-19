@@ -1,32 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Doller Tree Family</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .welcome-note {
+      background-color: #cfe2f3;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .welcome-note h2 {
+      color: #1e6e91;
+    }
+    .welcome-note p {
+      color: #555;
+    }
+    .info-box {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      border-radius: 5px;
+      margin: 5px;
+    }
+    .copy-btn {
+      background-color: #f44336;
+      color: white;
+      padding: 10px 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .col-2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  </style>
 </head>
 <body>
-    <div class="menu">
-        <h1>Welcome, Member</h1>
-        
-        <!-- Profile Button -->
-        <button onclick="window.location.href='profile.html'">Profile</button>
-        
-        <!-- Income Statement Button -->
-        <button onclick="window.location.href='income_statement.html'">Income Statement</button>
 
-        <!-- Team Summary Button -->
-        <button onclick="window.location.href='team_summary.html'">Team Summary</button>
+  <!-- Welcome Section -->
+  <div class="welcome-note">
+    <h2>Welcome to Doller Tree Family, <span id="userEmail"></span></h2>
+    <p>Thank you for your right decision, start your financial freedom journey from here now. Your sponsor will guide and help you. Be sure this project is forever with you. Believe in this wonderful system and go ahead. Wishing you success.</p>
+  </div>
 
-        <!-- Change Password Button -->
-        <button onclick="window.location.href='change_password.html'">Change Password</button>
+  <!-- Referral Code Section -->
+  <div class="info-box">
+    <h3>Your Referral Code: <span id="referralCode">ABCD1234</span> 
+      <button class="copy-btn" onclick="copyReferralCode()">Copy</button>
+    </h3>
+  </div>
 
-        <!-- Note Section -->
-        <section class="note">
-            <h2>Important Note:</h2>
-            <p>Dear member, be careful! Due to security reasons, your mobile number, email address, and wallet address cannot be changed. Once you miss it, you will lose control of your account and team. It’s your duty to stay protected from misuse. Support team cannot help you, so keep your password secret and safe.</p>
-        </section>
-    </div>
+  <!-- Stats Section -->
+  <div class="info-box">
+    <h3>Your Direct Team: <span id="directTeam">50</span></h3>
+    <h3>Total Team: <span id="totalTeam">200</span></h3>
+    <h3>Total Income: $<span id="totalIncome">500</span></h3>
+    <h3>Today's Income: $<span id="todayIncome">10</span></h3>
+  </div>
+
+  <!-- Table for Level Stats -->
+  <table>
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Users Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Level 1</td><td>30</td></tr>
+      <tr><td>Level 2</td><td>20</td></tr>
+      <tr><td>Level 3</td><td>15</td></tr>
+      <tr><td>Level 4</td><td>10</td></tr>
+      <tr><td>Level 5</td><td>8</td></tr>
+      <tr><td>Level 6</td><td>5</td></tr>
+      <tr><td>Level 7</td><td>3</td></tr>
+      <tr><td>Level 8</td><td>2</td></tr>
+      <tr><td>Level 9</td><td>1</td></tr>
+      <tr><td>Level 10</td><td>0</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Set User Email dynamically (Example: Replace with actual user's email data)
+    document.getElementById('userEmail').textContent = 'user@example.com'; // Replace with actual email
+    
+    // Function to copy referral code to clipboard
+    function copyReferralCode() {
+      const referralCode = document.getElementById('referralCode').textContent;
+      navigator.clipboard.writeText(referralCode).then(() => {
+        alert('Referral code copied to clipboard!');
+      });
+    }
+  </script>
+  
 </body>
 </html>
