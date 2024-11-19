@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dollar Tree - Join</title>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,16 +23,12 @@
             display: block;
             margin-bottom: 8px;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 8px;
             margin-bottom: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
-        }
-        input.country-code {
-            width: 50px;
-            text-align: center;
         }
         button {
             width: 100%;
@@ -68,14 +61,14 @@
             <label for="walletAddress">Wallet Address:</label>
             <input type="text" id="walletAddress" name="walletAddress" required>
 
-            <label for="mobileDetails">Mobile Number:</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="countryCode" class="country-code" name="countryCode" value="+" maxlength="4" required>
-                <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter mobile number">
+            <label for="mobileNumber">Mobile Number:</label>
+            <div style="display: flex;">
+                <input type="text" id="countryCode" name="countryCode" value="+" size="2" required>
+                <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter your mobile number">
             </div>
 
-            <label for="referralCode">Referral Code:</label>
-            <input type="text" id="referralCode" name="referralCode" required>
+            <label for="referralCode">Referral Code (Optional):</label>
+            <input type="text" id="referralCode" name="referralCode">
 
             <button type="submit">Join</button>
         </form>
@@ -108,8 +101,8 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const walletAddress = document.getElementById('walletAddress').value;
-            const countryCode = document.getElementById('countryCode').value;
             const mobileNumber = document.getElementById('mobileNumber').value;
+            const countryCode = document.getElementById('countryCode').value;
             const referralCode = document.getElementById('referralCode').value;
 
             // Check if password and confirm password match
@@ -130,7 +123,7 @@
                         email: email,
                         walletAddress: walletAddress,
                         mobileNumber: countryCode + mobileNumber, // Store mobile number with country code
-                        referralCode: referralCode
+                        referralCode: referralCode || null
                     })
                     .then(() => {
                         alert('User registered successfully!');
