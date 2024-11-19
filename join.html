@@ -33,6 +33,10 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        input.country-code {
+            width: 50px;
+            text-align: center;
+        }
         button {
             width: 100%;
             padding: 10px;
@@ -64,11 +68,11 @@
             <label for="walletAddress">Wallet Address:</label>
             <input type="text" id="walletAddress" name="walletAddress" required>
 
-            <label for="countryCode">Country Code (e.g., +91):</label>
-            <input type="text" id="countryCode" name="countryCode" required placeholder="Enter country code">
-
-            <label for="mobileNumber">Mobile Number:</label>
-            <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter mobile number">
+            <label for="mobileDetails">Mobile Number:</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="countryCode" class="country-code" name="countryCode" value="+" maxlength="4" required>
+                <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter mobile number">
+            </div>
 
             <label for="referralCode">Referral Code:</label>
             <input type="text" id="referralCode" name="referralCode" required>
