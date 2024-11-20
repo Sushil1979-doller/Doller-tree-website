@@ -23,20 +23,26 @@ function fetchUserProfile() {
         const userRef = database.ref('users/' + user.uid);
 
         // Fetch user data
-        userRef.once('value', (snapshot) => {
-            const userData = snapshot.val();
+        userRef.once('value')
+            .then((snapshot) => {
+                const userData = snapshot.val();
 
-            // Display user data on the page
-            if (userData) {
-                document.getElementById('email').textContent = userData.email || 'Not Available';
-                document.getElementById('mobile').textContent = userData.mobileNumber || 'Not Available';
-                document.getElementById('wallet').textContent = userData.walletAddress || 'Not Available';
-            } else {
-                alert('No data found for this user.');
-            }
-        });
+                // Display user data on the page
+                if (userData) {
+                    document.getElementById('email').textContent = userData.email || 'Not Available';
+                    document.getElementById('mobile').textContent = userData.mobileNumber || 'Not Available';
+                    document.getElementById('wallet').textContent = userData.walletAddress || 'Not Available';
+                } else {
+                    alert('No data found for this user.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching user data:', error);
+            });
     } else {
+        // Redirect user to login page if not logged in
         alert('No user is logged in.');
+        window.location.href = 'login.html'; // Redirect to the login page
     }
 }
 
