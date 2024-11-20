@@ -43,6 +43,13 @@
         button:hover {
             background: #218838;
         }
+        .mobile-input {
+            display: flex;
+        }
+        .country-code {
+            width: 50px; /* Set width for country code */
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -62,13 +69,13 @@
             <input type="text" id="walletAddress" name="walletAddress" required>
 
             <label for="mobileNumber">Mobile Number:</label>
-            <div style="display: flex;">
-                <input type="text" id="countryCode" name="countryCode" value="+" size="2" required>
+            <div class="mobile-input">
+                <input type="text" id="countryCode" name="countryCode" value="+" size="2" maxlength="4" required class="country-code">
                 <input type="text" id="mobileNumber" name="mobileNumber" required placeholder="Enter your mobile number">
             </div>
 
-            <label for="referralCode">Referral Code (Optional):</label>
-            <input type="text" id="referralCode" name="referralCode">
+            <label for="referralCode">Referral Code:</label>
+            <input type="text" id="referralCode" name="referralCode" required>
 
             <button type="submit">Join</button>
         </form>
@@ -123,7 +130,7 @@
                         email: email,
                         walletAddress: walletAddress,
                         mobileNumber: countryCode + mobileNumber, // Store mobile number with country code
-                        referralCode: referralCode || null
+                        referralCode: referralCode // Now required
                     })
                     .then(() => {
                         alert('User registered successfully!');
