@@ -1,4 +1,4 @@
-// Firebase Configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDCEBA8Dnd7pBs2rNKwxLETwObxBm9TYS4",
     authDomain: "doller-tree-4434d.firebaseapp.com",
@@ -14,47 +14,33 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database();
 
-// DOM Elements
-const emailDiv = document.getElementById('email');
-const mobileNumberDiv = document.getElementById('mobileNumber');
-const walletAddressDiv = document.getElementById('walletAddress');
-const logoutButton = document.getElementById('logoutButton');
-
-// Check if user is logged in
-auth.onAuthStateChanged((user) => {
+// Function to fetch user data
+function fetchUserProfile() {
+    const user = auth.currentUser; // Get the currently logged-in user
+    
     if (user) {
-        const userId = user.uid;
+        // Reference to the user's data in Firebase
+        const userRef = database.ref('users/' + user.uid);
 
-        // Fetch user data from Firebase Realtime Database
-        const userRef = database.ref('users/' + userId);
-        userRef.once('value')
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    emailDiv.textContent = data.email || 'Not available';
-                    mobileNumberDiv.textContent = data.mobileNumber || 'Not available';
-                    walletAddressDiv.textContent = data.walletAddress || 'Not available';
-                } else {
-                    alert("User data not found!");
-                }
-            })
-            .catch((error) => {
-                alert('Error fetching user data: ' + error.message);
-            });
-    } else {
-        // Redirect to login page if user is not logged in
-        window.location.href = 'join.html';
-    }
-});
+        // Fetch user data
+        userRef.once('value', (snapshot) => {
+            const userData = snapshot.val();
 
-// Logout functionality
-logoutButton.addEventListener('click', () => {
-    auth.signOut()
-        .then(() => {
-            alert('Logged out successfully!');
-            window.location.href = 'join.html';
-        })
-        .catch((error) => {
-            alert('Error logging out: ' + error.message);
+            // Display user data on the page
+            if (userData) {
+                document.getElementById('email').textContent = userData.email || 'Not Available';
+                document.getElementById('mobile').textContent = userData.mobileNumber || 'Not Available';
+                document.getElementById('wallet').textContent = userData.walletAddress || 'Not Available';
+            } else {
+                alert('No data found for this user.');
+            }
         });
-});
+    } else {
+        alert('No user is logged in.');
+    }
+}
+
+// Call the function to load user profile when the page is ready
+window.onload = function() {
+    fetchUserProfile();
+};
