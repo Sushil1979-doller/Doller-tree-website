@@ -26,6 +26,19 @@
             font-size: 16px;
             line-height: 1.6;
         }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -34,6 +47,9 @@
         <p><strong>Email:</strong> <span id="email">Loading...</span></p>
         <p><strong>Mobile Number:</strong> <span id="mobile">Loading...</span></p>
         <p><strong>Wallet Address:</strong> <span id="wallet">Loading...</span></p>
+
+        <!-- Change Password Button -->
+        <div class="button" onclick="location.href='change-password.html'">Change Password</div>
     </div>
 
     <!-- Firebase SDK -->
