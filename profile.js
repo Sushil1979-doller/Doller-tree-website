@@ -33,15 +33,18 @@ function fetchUserProfile() {
                     document.getElementById('mobile').textContent = userData.mobileNumber || 'Not Available';
                     document.getElementById('wallet').textContent = userData.walletAddress || 'Not Available';
                 } else {
-                    alert('No data found for this user.');
+                    alert('No data found for this user. Please check your profile.');
+                    // Optional: Redirect to profile edit page
+                    window.location.href = 'edit_profile.html'; // Redirect to edit page
                 }
             })
             .catch((error) => {
                 console.error('Error fetching user data:', error);
+                alert('There was an issue fetching your data. Please try again later.');
             });
     } else {
         // Redirect user to login page if not logged in
-        alert('No user is logged in.');
+        alert('No user is logged in. Please login first.');
         window.location.href = 'login.html'; // Redirect to the login page
     }
 }
