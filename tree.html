@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View your referral tree in a dynamic and user-friendly structure.">
     <title>Referral Tree</title>
-    <link rel="stylesheet" href="styles.css"> <!-- External CSS for styling -->
+    <link rel="stylesheet" href="styles.css"> <!-- Ensure the file name matches your CSS file -->
     <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"></script>
     <script>
@@ -30,25 +31,35 @@
             usersRef.on('value', (snapshot) => {
                 const users = snapshot.val();
                 let output = "<ul>";
-                for (let userID in users) {
-                    output += buildUserTree(userID, users[userID].referrals, 0); // Building the tree recursively
+                
+                if (users) {
+                    for (let userID in users) {
+                        output += buildUserTree(userID, users[userID].referrals, 0, users);
+                    }
+                } else {
+                    output = "<p>No users found in the referral tree.</p>";
                 }
+
                 output += "</ul>";
                 document.getElementById('userTree').innerHTML = output;
+            }, (error) => {
+                document.getElementById('userTree').innerHTML = `<p>Error loading data: ${error.message}</p>`;
             });
         }
 
         // Recursive function to build user tree
-        function buildUserTree(userID, referrals, level) {
-            let output = `<li style="margin-left:${level * 20}px; color:${referrals.length > 0 ? 'green' : 'yellow'};">User ID: ${userID}`;
-            if (referrals.length > 0) {
+        function buildUserTree(userID, referrals = [], level, users) {
+            let output = `<li class="${referrals.length > 0 ? 'green' : 'yellow'}">User ID: ${userID}</li>`;
+            
+            if (referrals && referrals.length > 0) {
                 output += "<ul>";
                 referrals.forEach(referral => {
-                    output += buildUserTree(referral, users[referral] ? users[referral].referrals : [], level + 1);
+                    const referralData = users[referral] || { referrals: [] };
+                    output += buildUserTree(referral, referralData.referrals, level + 1, users);
                 });
                 output += "</ul>";
             }
-            output += "</li>";
+
             return output;
         }
 
