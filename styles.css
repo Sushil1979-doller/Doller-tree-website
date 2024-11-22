@@ -1,0 +1,52 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light grey background */
+}
+
+/* Header section styling */
+header {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Main content styling */
+main {
+    padding: 20px;
+}
+
+/* Styling for lists */
+ul {
+    list-style-type: none; /* Removes bullet points */
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+    padding: 5px;
+    border: 1px solid #ddd; /* Light border around each item */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background for items */
+}
+
+/* Footer section styling */
+footer {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+/* Tree styling */
+li.green {
+    color: green; /* Green for users with referrals */
+}
+
+li.yellow {
+    color: yellow; /* Yellow for users without referrals */
+}
