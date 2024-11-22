@@ -1,68 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Referral Tree</title>
-    <link rel="stylesheet" href="styles.css"> <!-- External CSS for styling -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Tree</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .welcome-note {
+      background-color: #4CAF50;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      color: white;
+    }
+    .welcome-note h2 {
+      margin: 0;
+    }
+    .welcome-note p {
+      margin: 10px 0;
+    }
+    .info-box {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      border-radius: 5px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .button:hover {
+      opacity: 0.9;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .row-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Referral Tree</h1>
-        <p>Welcome to your referral tree. Below is a list of your network users.</p>
-    </header>
+
+  <!-- Welcome Section -->
+  <div class="welcome-note">
+    <h2>Welcome to Doller Tree Family, <span id="userEmail"></span></h2>
+    <p>Thank you for your right decision, start your financial freedom journey from here now. Your sponsor will guide and help you. Be sure this project will be forever with you. Believe in this wonderful system and go ahead. Wishing you success.</p>
+  </div>
+
+  <!-- Referral Code Section -->
+  <div class="info-box">
+    <h3>Your Referral Code: <span id="referralCode">ABCD1234</span> 
+      <button class="copy-btn" onclick="copyReferralCode()">Copy</button>
+    </h3>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="info-box">
+    <h3>Your Direct: <span id="directTeam">50</span></h3>
+    <h3>Total Team: <span id="totalTeam">200</span></h3>
+    <h3>Total Income: $<span id="totalIncome">500</span></h3>
+    <h3>Today's Income: $<span id="todayIncome">10</span></h3>
+  </div>
+
+  <!-- Level Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Users Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Level 1</td><td>30</td></tr>
+      <tr><td>Level 2</td><td>20</td></tr>
+      <tr><td>Level 3</td><td>15</td></tr>
+      <tr><td>Level 4</td><td>10</td></tr>
+      <tr><td>Level 5</td><td>8</td></tr>
+      <tr><td>Level 6</td><td>5</td></tr>
+      <tr><td>Level 7</td><td>3</td></tr>
+      <tr><td>Level 8</td><td>2</td></tr>
+      <tr><td>Level 9</td><td>1</td></tr>
+      <tr><td>Level 10</td><td>0</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Buttons Section (Updated) -->
+  <div class="row-buttons">
+    <div class="button" onclick="location.href='profile.html'">Profile</div>
+    <div class="button" onclick="location.href='your_tree.html'">Your Tree</div>
+    <div class="button" onclick="location.href='statement.html'">Income Statement</div>
+    <!-- Removed Change Password button from here -->
+    <div class="button button-blue" onclick="location.href='how_to_build_team.html'">How to Build Team</div>
+  </div>
+
+  <script>
+    // Set User Email dynamically (Example: Replace with actual user's email data)
+    document.getElementById('userEmail').textContent = 'user@example.com'; // Replace with actual email
     
-    <main>
-        <section>
-            <h2>Your Referral Tree</h2>
-            <div id="userTree">
-                <!-- User tree will be dynamically generated here -->
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Doller Tree</p>
-    </footer>
-
-    <script>
-        // Temporary Dummy Data for Testing
-        function getUsers() {
-            const dummyData = {
-                userID1: { referrals: ["userID2", "userID3"] },
-                userID2: { referrals: ["userID4"] },
-                userID3: { referrals: [] },
-                userID4: { referrals: [] }
-            };
-
-            let output = "<ul>";
-            for (let userID in dummyData) {
-                output += buildUserTree(userID, dummyData[userID].referrals, 0, dummyData);
-            }
-            output += "</ul>";
-            document.getElementById('userTree').innerHTML = output;
-        }
-
-        // Recursive function to build the user tree
-        function buildUserTree(userID, referrals, level, data) {
-            let output = `<li style="margin-left:${level * 20}px; color:${referrals.length > 0 ? 'green' : 'yellow'};">
-                User ID: ${userID}
-            `;
-            if (referrals.length > 0) {
-                output += "<ul>";
-                referrals.forEach(referral => {
-                    output += buildUserTree(referral, data[referral] ? data[referral].referrals : [], level + 1, data);
-                });
-                output += "</ul>";
-            }
-            output += "</li>";
-            return output;
-        }
-
-        // Load the tree on page load
-        window.onload = function () {
-            getUsers();
-        };
-    </script>
+    // Function to copy referral code to clipboard
+    function copyReferralCode() {
+      const referralCode = document.getElementById('referralCode').textContent;
+      navigator.clipboard.writeText(referralCode).then(() => {
+        alert('Referral code copied to clipboard!');
+      });
+    }
+  </script>
+  
 </body>
 </html>
