@@ -41,12 +41,3 @@ footer {
     padding: 10px;
     margin-top: 20px;
 }
-
-/* Tree styling */
-li.green {
-    color: green; /* Green for users with referrals */
-}
-
-li.yellow {
-    color: yellow; /* Yellow for users without referrals */
-}
