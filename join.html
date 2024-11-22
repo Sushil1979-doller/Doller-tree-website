@@ -81,6 +81,19 @@
             <label for="referralCode">Referral Code:</label>
             <input type="text" id="referralCode" name="referralCode" required>
 
+            <!-- Date of Birth -->
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <!-- Gender -->
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="" disabled selected>Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
             <button type="submit">Join</button>
         </form>
     </div>
@@ -116,6 +129,8 @@
             const mobileNumber = document.getElementById('mobileNumber').value;
             const countryCode = document.getElementById('countryCode').value;
             const referralCode = document.getElementById('referralCode').value;
+            const dob = document.getElementById('dob').value;
+            const gender = document.getElementById('gender').value;
 
             // Check if password and confirm password match
             if (password !== confirmPassword) {
@@ -136,7 +151,9 @@
                         email: email,
                         walletAddress: walletAddress,
                         mobileNumber: countryCode + mobileNumber, // Store mobile number with country code
-                        referralCode: referralCode // Now required
+                        referralCode: referralCode, // Now required
+                        dateOfBirth: dob, // Save date of birth
+                        gender: gender // Save gender
                     })
                     .then(() => {
                         alert('User registered successfully!');
