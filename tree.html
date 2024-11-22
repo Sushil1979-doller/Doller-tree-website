@@ -3,71 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="View your referral tree in a dynamic and user-friendly structure.">
     <title>Referral Tree</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Ensure the file name matches your CSS file -->
-    <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"></script>
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDCEBA8Dnd7pBs2rNKwxLETwObxBm9TYS4",
-            authDomain: "doller-tree-4434d.firebaseapp.com",
-            databaseURL: "https://doller-tree-4434d-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "doller-tree-4434d",
-            storageBucket: "doller-tree-4434d.firebasestorage.app",
-            messagingSenderId: "308263906273",
-            appId: "1:308263906273:web:060be293712c9a1fcf00a0",
-            measurementId: "G-BEH05DWD99"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // Fetch users from Firebase and display in a tree-like structure
-        function getUsers() {
-            const usersRef = database.ref('users');
-            usersRef.on('value', (snapshot) => {
-                const users = snapshot.val();
-                let output = "<ul>";
-                
-                if (users) {
-                    for (let userID in users) {
-                        output += buildUserTree(userID, users[userID].referrals, 0, users);
-                    }
-                } else {
-                    output = "<p>No users found in the referral tree.</p>";
-                }
-
-                output += "</ul>";
-                document.getElementById('userTree').innerHTML = output;
-            }, (error) => {
-                document.getElementById('userTree').innerHTML = `<p>Error loading data: ${error.message}</p>`;
-            });
-        }
-
-        // Recursive function to build user tree
-        function buildUserTree(userID, referrals = [], level, users) {
-            let output = `<li class="${referrals.length > 0 ? 'green' : 'yellow'}">User ID: ${userID}</li>`;
-            
-            if (referrals && referrals.length > 0) {
-                output += "<ul>";
-                referrals.forEach(referral => {
-                    const referralData = users[referral] || { referrals: [] };
-                    output += buildUserTree(referral, referralData.referrals, level + 1, users);
-                });
-                output += "</ul>";
-            }
-
-            return output;
-        }
-
-        // Call function to load users on page load
-        window.onload = function() {
-            getUsers();
-        };
-    </script>
+    <link rel="stylesheet" href="styles.css"> <!-- External CSS for styling -->
 </head>
 <body>
     <header>
@@ -79,7 +16,7 @@
         <section>
             <h2>Your Referral Tree</h2>
             <div id="userTree">
-                <!-- User tree will be dynamically generated here from Firebase -->
+                <!-- User tree will be dynamically generated here -->
             </div>
         </section>
     </main>
@@ -87,5 +24,45 @@
     <footer>
         <p>&copy; 2024 Doller Tree</p>
     </footer>
+
+    <script>
+        // Temporary Dummy Data for Testing
+        function getUsers() {
+            const dummyData = {
+                userID1: { referrals: ["userID2", "userID3"] },
+                userID2: { referrals: ["userID4"] },
+                userID3: { referrals: [] },
+                userID4: { referrals: [] }
+            };
+
+            let output = "<ul>";
+            for (let userID in dummyData) {
+                output += buildUserTree(userID, dummyData[userID].referrals, 0, dummyData);
+            }
+            output += "</ul>";
+            document.getElementById('userTree').innerHTML = output;
+        }
+
+        // Recursive function to build the user tree
+        function buildUserTree(userID, referrals, level, data) {
+            let output = `<li style="margin-left:${level * 20}px; color:${referrals.length > 0 ? 'green' : 'yellow'};">
+                User ID: ${userID}
+            `;
+            if (referrals.length > 0) {
+                output += "<ul>";
+                referrals.forEach(referral => {
+                    output += buildUserTree(referral, data[referral] ? data[referral].referrals : [], level + 1, data);
+                });
+                output += "</ul>";
+            }
+            output += "</li>";
+            return output;
+        }
+
+        // Load the tree on page load
+        window.onload = function () {
+            getUsers();
+        };
+    </script>
 </body>
 </html>
