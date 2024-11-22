@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Tree</title>
+    <link rel="stylesheet" href="styles.css"> <!-- External CSS for styling -->
+    <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCEBA8Dnd7pBs2rNKwxLETwObxBm9TYS4",
+            authDomain: "doller-tree-4434d.firebaseapp.com",
+            databaseURL: "https://doller-tree-4434d-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "doller-tree-4434d",
+            storageBucket: "doller-tree-4434d.firebasestorage.app",
+            messagingSenderId: "308263906273",
+            appId: "1:308263906273:web:060be293712c9a1fcf00a0",
+            measurementId: "G-BEH05DWD99"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Fetch users from Firebase
+        function getUsers() {
+            const usersRef = database.ref('users');
+            usersRef.on('value', (snapshot) => {
+                const users = snapshot.val();
+                let output = "<ul>";
+                for (let userID in users) {
+                    output += `<li>User ID: ${userID}</li>`;
+                }
+                output += "</ul>";
+                document.getElementById('userList').innerHTML = output;
+            });
+        }
+
+        // Call function to load users on page load
+        window.onload = function() {
+            getUsers();
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Referral Tree</h1>
+        <p>Welcome to your referral tree. Below is a list of your network users.</p>
+    </header>
+    
+    <main>
+        <section>
+            <h2>Your Users</h2>
+            <div id="userList">
+                <!-- User list will be dynamically generated here from Firebase -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Doller Tree</p>
+    </footer>
+</body>
+</html>
