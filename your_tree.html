@@ -1,137 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Tree</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 20px;
-    }
-    .welcome-note {
-      background-color: #4CAF50;
-      padding: 20px;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      color: white;
-    }
-    .welcome-note h2 {
-      margin: 0;
-    }
-    .welcome-note p {
-      margin: 10px 0;
-    }
-    .info-box {
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-      display: inline-block;
-      border-radius: 5px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    .button:hover {
-      opacity: 0.9;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-    th, td {
-      padding: 10px;
-      text-align: center;
-    }
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    .row-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Referral Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        .tree-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+        }
+
+        .user-card {
+            width: 180px;
+            margin: 10px;
+            padding: 15px;
+            background-color: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .user-card:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .user-id {
+            font-weight: bold;
+        }
+
+        .user-status {
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .green {
+            background-color: green;
+            color: white;
+        }
+
+        .team-info {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .user-card.open .team-info {
+            display: block;
+        }
+    </style>
 </head>
 <body>
+    <h1>User Referral Tree</h1>
+    <div class="tree-container" id="tree-container">
+        <!-- User Cards will be dynamically inserted here -->
+    </div>
 
-  <!-- Welcome Section -->
-  <div class="welcome-note">
-    <h2>Welcome to Doller Tree Family, <span id="userEmail"></span></h2>
-    <p>Thank you for your right decision, start your financial freedom journey from here now. Your sponsor will guide and help you. Be sure this project will be forever with you. Believe in this wonderful system and go ahead. Wishing you success.</p>
-  </div>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js"></script>
 
-  <!-- Referral Code Section -->
-  <div class="info-box">
-    <h3>Your Referral Code: <span id="referralCode">ABCD1234</span> 
-      <button class="copy-btn" onclick="copyReferralCode()">Copy</button>
-    </h3>
-  </div>
+    <script>
+        // Firebase configuration (using provided credentials)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCEBA8Dnd7pBs2rNKwxLETwObxBm9TYS4",
+            authDomain: "doller-tree-4434d.firebaseapp.com",
+            databaseURL: "https://doller-tree-4434d-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "doller-tree-4434d",
+            storageBucket: "doller-tree-4434d.firebasestorage.app",
+            messagingSenderId: "308263906273",
+            appId: "1:308263906273:web:060be293712c9a1fcf00a0",
+            measurementId: "G-BEH05DWD99"
+        };
 
-  <!-- Stats Section -->
-  <div class="info-box">
-    <h3>Your Direct: <span id="directTeam">50</span></h3>
-    <h3>Total Team: <span id="totalTeam">200</span></h3>
-    <h3>Total Income: $<span id="totalIncome">500</span></h3>
-    <h3>Today's Income: $<span id="todayIncome">10</span></h3>
-  </div>
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database(app);
 
-  <!-- Level Table -->
-  <table>
-    <thead>
-      <tr>
-        <th>Level</th>
-        <th>Users Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Level 1</td><td>30</td></tr>
-      <tr><td>Level 2</td><td>20</td></tr>
-      <tr><td>Level 3</td><td>15</td></tr>
-      <tr><td>Level 4</td><td>10</td></tr>
-      <tr><td>Level 5</td><td>8</td></tr>
-      <tr><td>Level 6</td><td>5</td></tr>
-      <tr><td>Level 7</td><td>3</td></tr>
-      <tr><td>Level 8</td><td>2</td></tr>
-      <tr><td>Level 9</td><td>1</td></tr>
-      <tr><td>Level 10</td><td>0</td></tr>
-    </tbody>
-  </table>
+        // Fetch data from Firebase and dynamically generate user cards
+        document.addEventListener("DOMContentLoaded", function() {
+            const treeContainer = document.getElementById('tree-container');
+            
+            // Fetch user data from Firebase
+            firebase.database().ref('users').on('value', function(snapshot) {
+                const users = snapshot.val();
 
-  <!-- Buttons Section (Updated) -->
-  <div class="row-buttons">
-    <div class="button" onclick="location.href='profile.html'">Profile</div>
-    <div class="button" onclick="location.href='your_tree.html'">Your Tree</div>
-    <div class="button" onclick="location.href='statement.html'">Income Statement</div>
-    <!-- Removed Change Password button from here -->
-    <div class="button button-blue" onclick="location.href='how_to_build_team.html'">How to Build Team</div>
-  </div>
+                // Loop through each user in Firebase
+                for (let userId in users) {
+                    const user = users[userId];
 
-  <script>
-    // Set User Email dynamically (Example: Replace with actual user's email data)
-    document.getElementById('userEmail').textContent = 'user@example.com'; // Replace with actual email
-    
-    // Function to copy referral code to clipboard
-    function copyReferralCode() {
-      const referralCode = document.getElementById('referralCode').textContent;
-      navigator.clipboard.writeText(referralCode).then(() => {
-        alert('Referral code copied to clipboard!');
-      });
-    }
-  </script>
-  
+                    // Create user card
+                    const userCard = document.createElement('div');
+                    userCard.classList.add('user-card');
+                    userCard.setAttribute('id', userId);
+
+                    // Create user info (ID & status)
+                    const userInfo = document.createElement('div');
+                    userInfo.classList.add('user-info');
+
+                    const userIdSpan = document.createElement('span');
+                    userIdSpan.classList.add('user-id');
+                    userIdSpan.textContent = user.name;
+
+                    const userStatusSpan = document.createElement('span');
+                    userStatusSpan.classList.add('user-status');
+                    userStatusSpan.textContent = user.referrals.length > 0 ? 'Has Referrals' : 'No Referrals';
+                    userStatusSpan.classList.add(user.referrals.length > 0 ? 'green' : 'yellow');
+
+                    userInfo.appendChild(userIdSpan);
+                    userInfo.appendChild(userStatusSpan);
+
+                    // Create team info (list of referrals)
+                    const teamInfo = document.createElement('div');
+                    teamInfo.classList.add('team-info');
+
+                    if (user.referrals && user.referrals.length > 0) {
+                        user.referrals.forEach(referral => {
+                            const referralDiv = document.createElement('div');
+                            referralDiv.textContent = referral;
+                            teamInfo.appendChild(referralDiv);
+                        });
+                    } else {
+                        teamInfo.textContent = "No referrals yet.";
+                    }
+
+                    userCard.appendChild(userInfo);
+                    userCard.appendChild(teamInfo);
+                    treeContainer.appendChild(userCard);
+
+                    // Add click event to toggle team info visibility
+                    userCard.addEventListener('click', function() {
+                        userCard.classList.toggle('open');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
