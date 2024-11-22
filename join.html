@@ -56,6 +56,10 @@
     <div class="container">
         <h2>Join Dollar Tree</h2>
         <form id="joinForm">
+            <!-- New Name input added here -->
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
@@ -104,6 +108,7 @@
             e.preventDefault();
 
             // Get form values
+            const name = document.getElementById('name').value; // New name field
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
@@ -127,6 +132,7 @@
                     // Save data to Firebase Realtime Database
                     const userRef = database.ref('users/' + userIdToken);
                     userRef.set({
+                        name: name, // Save name in the database
                         email: email,
                         walletAddress: walletAddress,
                         mobileNumber: countryCode + mobileNumber, // Store mobile number with country code
