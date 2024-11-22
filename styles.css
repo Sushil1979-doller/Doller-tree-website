@@ -10,8 +10,9 @@ body {
 header {
     background-color: #007bff; /* Blue background */
     color: white;
-    padding: 10px;
+    padding: 20px; /* Increased padding */
     text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
 }
 
 /* Main content styling */
@@ -26,11 +27,17 @@ ul {
 }
 
 li {
-    margin: 5px 0;
-    padding: 5px;
+    margin: 10px 0;
+    padding: 10px; /* Increased padding for better spacing */
     border: 1px solid #ddd; /* Light border around each item */
     border-radius: 5px; /* Rounded corners */
     background-color: #fff; /* White background for items */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+
+li:hover {
+    background-color: #f1f1f1; /* Light grey on hover */
+    transform: translateX(5px); /* Slight movement on hover */
 }
 
 /* Footer section styling */
@@ -38,6 +45,20 @@ footer {
     background-color: #007bff; /* Blue background */
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 20px; /* Increased padding */
     margin-top: 20px;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header, footer {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+    main {
+        padding: 10px; /* Less padding on small screens */
+    }
+    li {
+        padding: 8px; /* Adjust list item padding */
+    }
 }
