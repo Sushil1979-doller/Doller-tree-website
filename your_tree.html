@@ -12,146 +12,96 @@
             background-color: #f4f4f9;
         }
 
-        .tree-container {
+        .tree {
             display: flex;
-            flex-wrap: wrap;
-            margin: 0;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
         }
 
-        .user-card {
-            width: 180px;
-            margin: 10px;
-            padding: 15px;
+        .level {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .node {
+            padding: 10px;
+            margin: 5px;
             background-color: white;
             border: 2px solid #ddd;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .user-card:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .user-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .user-id {
+            border-radius: 50%;
+            text-align: center;
             font-weight: bold;
+            transition: transform 0.3s ease;
         }
 
-        .user-status {
-            padding: 5px;
-            border-radius: 5px;
-            font-size: 0.9em;
+        .node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        .yellow {
-            background-color: yellow;
-            color: black;
-        }
-
-        .green {
-            background-color: green;
-            color: white;
-        }
-
-        .team-info {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .user-card.open .team-info {
-            display: block;
+        .line {
+            position: relative;
+            height: 30px;
+            width: 2px;
+            background-color: #ddd;
         }
     </style>
 </head>
 <body>
-    <h1>User Referral Tree</h1>
-    <div class="tree-container" id="tree-container">
-        <!-- User Cards will be dynamically inserted here -->
+    <h1 style="text-align: center;">User Referral Tree</h1>
+
+    <div id="tree-container" class="tree">
+        <!-- Tree will be dynamically inserted here -->
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js"></script>
-
     <script>
-        // Firebase configuration (using provided credentials)
-        const firebaseConfig = {
-            apiKey: "AIzaSyDCEBA8Dnd7pBs2rNKwxLETwObxBm9TYS4",
-            authDomain: "doller-tree-4434d.firebaseapp.com",
-            databaseURL: "https://doller-tree-4434d-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "doller-tree-4434d",
-            storageBucket: "doller-tree-4434d.firebasestorage.app",
-            messagingSenderId: "308263906273",
-            appId: "1:308263906273:web:060be293712c9a1fcf00a0",
-            measurementId: "G-BEH05DWD99"
-        };
+        /**
+         * Recursive function to generate the referral tree up to a certain level.
+         */
+        function generateTree(container, userId, level, maxLevel) {
+            if (level > maxLevel) return;
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database(app);
+            // Create a level container
+            const levelContainer = document.createElement('div');
+            levelContainer.className = 'level';
 
-        // Fetch data from Firebase and dynamically generate user cards
+            // Create the current node
+            const node = document.createElement('div');
+            node.className = 'node';
+            node.textContent = userId;
+            levelContainer.appendChild(node);
+
+            // Add the current level to the tree container
+            container.appendChild(levelContainer);
+
+            // Recursively add child nodes
+            const childContainer = document.createElement('div');
+            childContainer.className = 'level';
+
+            for (let i = 1; i <= 3; i++) {
+                const childId = `${userId}.${i}`;
+                const childNode = document.createElement('div');
+                childNode.className = 'node';
+                childNode.textContent = childId;
+                childContainer.appendChild(childNode);
+
+                // Add recursive tree for the child
+                generateTree(childContainer, childId, level + 1, maxLevel);
+            }
+
+            container.appendChild(childContainer);
+        }
+
+        // Initialize tree generation
         document.addEventListener("DOMContentLoaded", function() {
             const treeContainer = document.getElementById('tree-container');
-            
-            // Fetch user data from Firebase
-            firebase.database().ref('users').on('value', function(snapshot) {
-                const users = snapshot.val();
+            const rootUserId = "1"; // Starting user ID
+            const maxLevel = 10;   // Number of levels to display
 
-                // Loop through each user in Firebase
-                for (let userId in users) {
-                    const user = users[userId];
-
-                    // Create user card
-                    const userCard = document.createElement('div');
-                    userCard.classList.add('user-card');
-                    userCard.setAttribute('id', userId);
-
-                    // Create user info (ID & status)
-                    const userInfo = document.createElement('div');
-                    userInfo.classList.add('user-info');
-
-                    const userIdSpan = document.createElement('span');
-                    userIdSpan.classList.add('user-id');
-                    userIdSpan.textContent = user.name;
-
-                    const userStatusSpan = document.createElement('span');
-                    userStatusSpan.classList.add('user-status');
-                    userStatusSpan.textContent = user.referrals.length > 0 ? 'Has Referrals' : 'No Referrals';
-                    userStatusSpan.classList.add(user.referrals.length > 0 ? 'green' : 'yellow');
-
-                    userInfo.appendChild(userIdSpan);
-                    userInfo.appendChild(userStatusSpan);
-
-                    // Create team info (list of referrals)
-                    const teamInfo = document.createElement('div');
-                    teamInfo.classList.add('team-info');
-
-                    if (user.referrals && user.referrals.length > 0) {
-                        user.referrals.forEach(referral => {
-                            const referralDiv = document.createElement('div');
-                            referralDiv.textContent = referral;
-                            teamInfo.appendChild(referralDiv);
-                        });
-                    } else {
-                        teamInfo.textContent = "No referrals yet.";
-                    }
-
-                    userCard.appendChild(userInfo);
-                    userCard.appendChild(teamInfo);
-                    treeContainer.appendChild(userCard);
-
-                    // Add click event to toggle team info visibility
-                    userCard.addEventListener('click', function() {
-                        userCard.classList.toggle('open');
-                    });
-                }
-            });
+            // Generate the tree
+            generateTree(treeContainer, rootUserId, 1, maxLevel);
         });
     </script>
 </body>
