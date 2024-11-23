@@ -21,6 +21,8 @@
     </style>
 </head>
 <body>
+    <h1>Doller Tree</h1> <!-- Title added for clarity -->
+
     <div id="tree-container"></div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
@@ -64,11 +66,11 @@
             // Helper function to recursively build the tree
             function buildTree(nodeId, level) {
                 if (level > levels || !users[nodeId]) return null; // Stop if we reach the maximum level or user doesn't exist
-                const user = users[nodeId] || { firstName: "Placeholder", lastName: "User", referrals: [] };
+                const user = users[nodeId] || { name: "Placeholder User", referrals: [] };  // Using name instead of first/last name
                 
                 // Create the node for the current user
                 const node = {
-                    name: `${user.firstName} ${user.lastName}`,  // Show firstName and lastName
+                    name: user.name,  // Show full name
                     referrals: [] // Initialize empty referrals array
                 };
 
@@ -105,10 +107,10 @@
                 userCard.classList.add('user-card');
                 userCard.setAttribute('id', userId);
                 
-                // User details (first name and last name)
+                // User details (name)
                 const userInfo = document.createElement('div');
                 userInfo.classList.add('user-info');
-                userInfo.innerHTML = `<strong>${userNode.name}</strong>`;  // Display firstName and lastName
+                userInfo.innerHTML = `<strong>${userNode.name}</strong>`;  // Display name
                 
                 // Render referrals recursively
                 const referralsList = document.createElement('div');
