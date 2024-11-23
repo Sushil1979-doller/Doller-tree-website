@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dummy Referral Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #tree-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .user-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px 20px;
+            width: 150px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+        .user-card h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .user-card p {
+            color: #555;
+            margin: 0;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dummy Referral Tree</h1>
+    <div id="tree-container"></div>
+
+    <button onclick="location.href='https://sushil1979-doller.github.io/Doller-tree-website/tree.html'">
+        View Your Tree
+    </button>
+
+    <script>
+        // डमी डेटा
+        const dummyData = {
+            user1: { name: "John Doe", referrals: ["user2", "user3"] },
+            user2: { name: "Jane Smith", referrals: [] },
+            user3: { name: "Robert Brown", referrals: ["user4"] },
+            user4: { name: "Emily Davis", referrals: [] }
+        };
+
+        // UI में डेटा जोड़ना
+        const treeContainer = document.getElementById('tree-container');
+
+        Object.keys(dummyData).forEach(userId => {
+            const user = dummyData[userId];
+            const card = document.createElement('div');
+            card.className = 'user-card';
+            card.innerHTML = `
+                <h3>${user.name}</h3>
+                <p>${user.referrals.length > 0 ? "Has Referrals" : "No Referrals"}</p>
+            `;
+            treeContainer.appendChild(card);
+        });
+    </script>
+</body>
+</html>
