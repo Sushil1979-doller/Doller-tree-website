@@ -22,6 +22,7 @@
 </head>
 <body>
     <div id="tree-container"></div>
+
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
     <script>
@@ -62,18 +63,28 @@
 
             // Helper function to recursively build the tree
             function buildTree(nodeId, level) {
-                if (level > levels) return; // Stop if we reach the maximum level
+                if (level > levels || !users[nodeId]) return null; // Stop if we reach the maximum level or user doesn't exist
                 const user = users[nodeId] || { firstName: "Placeholder", lastName: "User", referrals: [] };
                 
                 // Create the node for the current user
-                tree[nodeId] = {
+                const node = {
                     name: `${user.firstName} ${user.lastName}`,  // Show firstName and lastName
-                    referrals: user.referrals.map(refId => buildTree(refId, level + 1)) // Recursively fetch referrals
+                    referrals: [] // Initialize empty referrals array
                 };
+
+                // Recursively fetch referrals
+                user.referrals.forEach(refId => {
+                    const referralNode = buildTree(refId, level + 1);
+                    if (referralNode) {
+                        node.referrals.push(referralNode);
+                    }
+                });
+
+                return node; // Return the generated node
             }
 
             // Start building the tree from the rootId
-            buildTree(rootId, 1);
+            tree[rootId] = buildTree(rootId, 1);
             
             return tree; // Return the generated tree structure
         }
